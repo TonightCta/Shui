@@ -727,7 +727,7 @@ export default {
     },
     // 编辑组件
     editComponent () {
-      this.$router.push({path: '/drag', query: {pageId: this.pageId}})
+      this.$router.push({path: '/editPage', query: {pageId: this.pageId}})
     },
     // 获取页面面板列表
     findModuleNavByPageId (id) {

@@ -1,7 +1,7 @@
 <template>
     <!--使用draggable组件-->
     <div class="comp-attr">
-        <router-link to="/workbench" tag="i" class="el-icon-close goBack"></router-link>
+        <router-link :to="{path:'/editPage',query:{pageId:$route.query.pageId}}" tag="i" class="el-icon-close goBack"></router-link>
         <p style="marginTop:30px;">编辑组件属性</p>
         <div v-if="attrList.length > 0" class="cont">
           <div v-for="(item, index) in attrList" :key="index" class="attr-item">
