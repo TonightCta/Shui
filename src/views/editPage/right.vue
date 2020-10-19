@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="editRight">
-    <div class="editMenu">
+    <div class="editMenu" v-if="false">
       <el-tabs v-model="editActive" :stretch="true">
         <el-tab-pane label="属性" name="first">
           <ul class="editAttrMenu">
@@ -28,10 +28,66 @@
           </ul>
         </el-tab-pane>
         <el-tab-pane label="样式" name="second">
-          样式
+          <ul>
+            <li>
+              显示风格
+              <br>
+              <br>
+              <el-select v-model="showWay" style="width:100%;" size="mini" placeholder="请选择">
+                <el-option
+                  v-for="item in wayList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label">
+                </el-option>
+              </el-select>
+            </li>
+            <li>
+              位置
+              <br>
+              <br>
+              <el-select v-model="positionMenu" style="width:100%;" size="mini" placeholder="请选择">
+                <el-option
+                  v-for="item in positionList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.label">
+                </el-option>
+              </el-select>
+              <p style="marginBottom:0;">
+                X:&nbsp;<el-input type="primary" v-model="value" size="mini" style="width:120px;">
+                  <template slot="append">PX</template>
+                </el-input>
+                <span style="display:inline-block;width:20px;"></span>
+                Y:&nbsp;<el-input type="primary" v-model="value" size="mini" style="width:120px;">
+                  <template slot="append">PX</template>
+                </el-input>
+              </p>
+            </li>
+            <li>
+              显示方式
+              <br>
+              <br>
+              <el-select v-model="value" style="width:100%;" size="mini" placeholder="请选择">
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                </el-option>
+              </el-select>
+            </li>
+            <li>
+              工具条宽度
+              <br>
+              <br>
+              <el-input type="primary" v-model="value" size="mini" style="width:100%;"></el-input>
+            </li>
+          </ul>
         </el-tab-pane>
       </el-tabs>
     </div>
+    <!-- 面板属性编辑 -->
     <div class="editPanel" v-if="isEditPanel">
       <el-tabs v-model="editActive" :stretch="true" @tab-click="goTransition">
         <el-tab-pane label="属性" name="first">
@@ -79,10 +135,10 @@
               面板页面
               <br>
               <br>
-              &nbsp;&nbsp;<el-input type="primary" size="mini" style="width:170px;" v-model="panelStyleC.test1"></el-input><span>编辑</span>
+              &nbsp;&nbsp;<el-input type="primary" size="mini" style="width:170px;" v-model="panelStyleC.test1"></el-input><span @click="editPanContent">编辑</span>
               <br>
               <br>
-              &nbsp;&nbsp;<el-input type="primary" size="mini" style="width:170px;" v-model="panelStyleC.test1"></el-input><span>编辑</span><span style="color:#666;">删除</span>
+              &nbsp;&nbsp;<el-input type="primary" size="mini" style="width:170px;" v-model="panelStyleC.test1"></el-input><span @click="editPanContent">编辑</span><span style="color:#666;">删除</span>
               <p style="textAlign:center;">
                 <el-button icon="el-icon-plus" size="mini" style="width:95%;">添加面板页面</el-button>
               </p>
@@ -320,22 +376,6 @@ export default {
         },
       ],
       editActive:'first',//默认选中标签
-      options: [{
-         value: '选项1',
-         label: '黄金糕'
-       }, {
-         value: '选项2',
-         label: '双皮奶'
-       }, {
-         value: '选项3',
-         label: '蚵仔煎'
-       }, {
-         value: '选项4',
-         label: '龙须面'
-       }, {
-         value: '选项5',
-         label: '北京烤鸭'
-       }],
       test:null,
       addMenu:false,//添加菜单
       chioceIcon:false,//选择图标
@@ -348,6 +388,65 @@ export default {
         require('../../assets/map.jpg'),
         require('../../assets/test.jpeg'),
       ],
+      showWay:'左侧纵向菜单',//显示风格
+      wayList:[//显示风格列表
+        {
+          label:'左侧纵向菜单',
+          value:1,
+        },
+        {
+          label:'顶部横向菜单',
+          value:2
+        }
+      ],
+      positionMenu:'左侧(纵向排列)',//菜单位置
+      positionList:[
+        {
+          label:'左侧(纵向排列)',
+          value:1
+        },
+        {
+          label:'水平居中(纵向排列)',
+          value:2
+        },
+        {
+          label:'右侧(纵向排列)',
+          value:3
+        },
+        {
+          label:'顶部(横向排列)',
+          value:4
+        },
+        {
+          label:'垂直居中(横向排列)',
+          value:5
+        },
+        {
+          label:'底部(横向排列)',
+          value:6
+        }
+      ],
+      menuStyle:{
+        width:null,
+      },
+      //----------------------->
+      value:null,
+      options: [{
+          value: '选项1',
+          label: '黄金糕'
+        }, {
+          value: '选项2',
+          label: '双皮奶'
+        }, {
+          value: '选项3',
+          label: '蚵仔煎'
+        }, {
+          value: '选项4',
+          label: '龙须面'
+        }, {
+          value: '选项5',
+          label: '北京烤鸭'
+      }],
     }
   },
   methods:{
@@ -371,6 +470,9 @@ export default {
           }
         }
       },10)
+    },
+    showEditMenu(){
+      this.isEditPanel=true;
     },
     goTransition(){
       setTimeout(()=>{

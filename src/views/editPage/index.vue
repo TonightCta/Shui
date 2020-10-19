@@ -167,6 +167,7 @@ export default {
         this.isSucc=false;
       }else{
         this.panelList.splice(index,1)
+        this.$refs.editChild.getPanIndex(this.panelList[this.panelList.length-1].panelStyle);
       }
     },
     getEditStyle(v){//修改面板样式
